@@ -54,6 +54,16 @@
                     "maxmemory-delta": "125"
                 }
             }
+        },
+        {
+            "type": "Microsoft.Cache/Redis/firewallRules",
+            "apiVersion": "2021-06-01",
+            "name": "[concat(variables('redisServerName'), '/SPWebappRule')]",
+            "dependsOn": ["[resourceId('Microsoft.Cache/Redis', variables('redisServerName'))]"],
+            "properties": {
+                "startIP": "[reference(resourceId('Microsoft.Network/publicIPAddresses', variables('publicIPAddressName')),'2020-11-01').ipAddress]",
+                "endIP": "[reference(resourceId('Microsoft.Network/publicIPAddresses', variables('publicIPAddressName')),'2020-11-01').ipAddress]"
+            }
         }
     ]
 }

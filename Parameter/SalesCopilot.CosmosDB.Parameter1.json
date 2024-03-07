@@ -6,10 +6,10 @@
             "value": "spanditascaleunit"
         },
         "cosmosreadwritelocation": {
-            "value": "Canada Central"
+            "value": "Switzerland North"
         },
         "cosmosSecondarylocation": {
-            "value": "Canada East"
+            "value": "Switzerland West"
         },
         "hasCosmosBCDRRegion": {
             "value": false

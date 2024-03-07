@@ -1,0 +1,15 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "scaleUnit": {
+            "value": "int"
+        },
+        "webappPrefix": {
+            "value": "salesproductivityservice"
+        },
+        "storagesku": {
+            "value": "Standard_GRS"
+        }
+    }
+}

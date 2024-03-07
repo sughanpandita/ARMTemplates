@@ -10,9 +10,8 @@
 		},
 		"zones": {
 			"type": "array",
-			"defaultValue": [],
 			"metadata": {
-				"description": "Zones for the resource."
+				"description": "List of availability zones for the public IP address."
 			}
 		}
 	},

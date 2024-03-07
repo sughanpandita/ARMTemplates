@@ -3,7 +3,7 @@
     "contentVersion": "1.0.0.0",
     "parameters": {
         "scaleUnit": {
-            "value": "int"
+            "value": "spandita"
         },
         "redisServerSkuName": {
             "value": "Standard"

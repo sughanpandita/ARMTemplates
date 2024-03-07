@@ -9,7 +9,7 @@
             "value": "salesproductivityservice"
         },
         "storagesku": {
-            "value": "Standard_GZRS"
+            "value": "Standard_GRS"
         }
     }
 }

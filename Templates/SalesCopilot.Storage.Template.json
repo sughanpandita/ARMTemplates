@@ -1,0 +1,89 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "scaleUnit": {
+            "type": "string",
+            "metadata": {
+                "description": "Describes the scale unit that is to be used to uniquely identify each resource"
+            }
+        },
+        "webappPrefix": {
+            "type": "string",
+            "metadata": {
+                "description": "Prefix for the Web App being deployed"
+            }
+        },
+        "storagesku": {
+            "type": "string",
+            "defaultValue": "Standard_GRS",
+            "metadata": {
+                "description": "Prefix for the Web App being deployed"
+            }
+        }
+    },
+    "variables": {
+        "location": "[resourceGroup().location]",
+        "webAppName": "[concat(parameters('webappPrefix'),parameters('scaleUnit'))]",
+        "bgJobPrefix": "vivabgjobs",
+        "backgroundJobsStorageAccName": "[concat(variables('bgJobPrefix'),parameters('scaleUnit'))]",
+        "storageQueueDataContributor": "[concat('/subscriptions/', subscription().subscriptionId, '/providers/Microsoft.Authorization/roleDefinitions/', '974c5e8b-45b9-4653-ba55-5f855dd0fb88')]",
+        "storageTableDataContributor": "[concat('/subscriptions/', subscription().subscriptionId, '/providers/Microsoft.Authorization/roleDefinitions/', '0a9a7e1f-b9d0-4cc4-a60d-0319b160aaa3')]",
+        "storageBlobDataContributor": "[concat('/subscriptions/', subscription().subscriptionId, '/providers/Microsoft.Authorization/roleDefinitions/', 'ba92f5b4-2d11-453d-a403-e96b0029c9fe')]"
+    },
+    "resources": [
+        {
+            "type": "Microsoft.Storage/storageAccounts",
+            "name": "[variables('backgroundJobsStorageAccName')]",
+            "apiVersion": "2021-08-01",
+            "location": "[variables('location')]",
+            "sku": {
+                "name": "[parameters('storagesku')]"
+            },
+            "properties": {
+                "bypass": "Metrics, AzureServices",
+                "minimumTlsVersion": "TLS1_2",
+                "EnableHttpsTrafficOnly": "true",
+                "virtualNetworkRules": [],
+                "networkAcls": {
+                    "bypass": "AzureServices",
+                    "virtualNetworkRules": [],
+                    "ipRules": [],
+                    "defaultAction": "Allow"
+                }
+            },
+            "tags": {},
+            "kind": "StorageV2"
+        },
+        {
+            "type": "Microsoft.Authorization/roleAssignments",
+            "apiVersion": "2022-04-01",
+            "name": "[guid(subscription().subscriptionId , resourceGroup().name, variables('webAppName'), 'storageQueueDataContributor')]",
+            "scope": "[resourceId('Microsoft.Storage/storageAccounts', variables('backgroundJobsStorageAccName'))]",
+            "properties": {
+                "roleDefinitionId": "[variables('storageQueueDataContributor')]",
+                "principalId": "[reference(resourceId('Microsoft.Web/sites', variables('webAppName')), '2021-03-01', 'Full').identity.principalId]"
+            }
+        },
+        {
+            "type": "Microsoft.Authorization/roleAssignments",
+            "apiVersion": "2022-04-01",
+            "name": "[guid(subscription().subscriptionId , resourceGroup().name, variables('webAppName'), 'storageTableDataContributor')]",
+            "scope": "[resourceId('Microsoft.Storage/storageAccounts', variables('backgroundJobsStorageAccName'))]",
+            "properties": {
+                "roleDefinitionId": "[variables('storageTableDataContributor')]",
+                "principalId": "[reference(resourceId('Microsoft.Web/sites', variables('webAppName')), '2021-03-01', 'Full').identity.principalId]"
+            }
+        },
+        {
+            "type": "Microsoft.Authorization/roleAssignments",
+            "apiVersion": "2022-04-01",
+            "name": "[guid(subscription().subscriptionId , resourceGroup().name, variables('webAppName'), 'storageBlobDataContributor')]",
+            "scope": "[resourceId('Microsoft.Storage/storageAccounts', variables('backgroundJobsStorageAccName'))]",
+            "properties": {
+                "roleDefinitionId": "[variables('storageBlobDataContributor')]",
+                "principalId": "[reference(resourceId('Microsoft.Web/sites', variables('webAppName')), '2021-03-01', 'Full').identity.principalId]"
+            }
+        }
+    ]
+}

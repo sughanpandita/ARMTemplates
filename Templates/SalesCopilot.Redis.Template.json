@@ -32,19 +32,6 @@
     },
     "resources": [
         {
-            "type": "Microsoft.KeyVault/vaults/secrets",
-            "name": "[concat(concat(variables('vaults_salesproductivity_name'), '/'), variables('redisCacheConfStringSecretName'))]",
-            "apiVersion": "2021-11-01-preview",
-            "properties": {
-                "value": "[concat(variables('redisServerName'),'.redis.cache.windows.net:6380,ssl=true,connectTimeout=15000,syncTimeout=15000,abortConnect=false,password=',listKeys(resourceId('Microsoft.Cache/Redis/', variables('redisServerName')), '2021-06-01').primaryKey)]",
-                "contentType": "application/vnd.bag-StrongEncConnectionString",
-                "attributes": {
-                    "exp": "[parameters('expirationTimeInSecondsEpoch')]"
-                }
-            },
-            "dependsOn": ["[resourceId('Microsoft.Cache/Redis', variables('redisServerName'))]"]
-        },
-        {
             "type": "Microsoft.Cache/Redis",
             "apiVersion": "2021-06-01",
             "name": "[variables('redisServerName')]",
@@ -66,16 +53,6 @@
                     "maxfragmentationmemory-reserved": "125",
                     "maxmemory-delta": "125"
                 }
-            }
-        },
-        {
-            "type": "Microsoft.Cache/Redis/firewallRules",
-            "apiVersion": "2021-06-01",
-            "name": "[concat(variables('redisServerName'), '/SPWebappRule')]",
-            "dependsOn": ["[resourceId('Microsoft.Cache/Redis', variables('redisServerName'))]"],
-            "properties": {
-                "startIP": "[reference(resourceId('Microsoft.Network/publicIPAddresses', variables('publicIPAddressName')),'2020-11-01').ipAddress]",
-                "endIP": "[reference(resourceId('Microsoft.Network/publicIPAddresses', variables('publicIPAddressName')),'2020-11-01').ipAddress]"
             }
         }
     ]

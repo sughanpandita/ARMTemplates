@@ -1,0 +1,177 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "scaleUnit": {
+            "value": "spandita"
+        },
+        "WEBSITE_LOAD_CERTIFICATES": {
+            "value": "*"
+        },
+        "cors": {
+            "value": ["*"]
+        },
+        "customdomaincdnendpoint": {
+            "value": ""
+        },
+        "vnet": {
+            "value": "vnet-salesproductivity"
+        },
+        "MLServiceSetting": {
+            "value": "true"
+        },
+        "EmailInsightsEnabled": {
+            "value": "false"
+        },
+        "SkipEntityConfigCache": {
+            "value": "false"
+        },
+        "S2SEventSourceShowPII": {
+            "value": "false"
+        },
+        "packageLink": {
+            "value": "URL of the package link"
+        },
+        "Ev2TemplateSAS": {
+            "value": "<SaS>"
+        },
+        "CNameDomainName": {
+            "value": "<placeholder>"
+        },
+        "MSTeamsVivaSalesAppId": {
+            "value": "98a882ae-a7eb-4414-982a-346a766f4a50"
+        },
+        "MSTeamsServiceAppId": {
+            "value": "dfa10138-8ebd-4b54-8714-608b488be313"
+        },
+        "BaseExternalDependencies": {
+            "value": {
+                "BAPClientId": "<placeholder>",
+                "BAPEndPoint": "<placeholder>",
+                "TeamsS2SAllowlistedAppId": "<placeholder>",
+                "S2SAllowedApplicationIds": "<placeholder>",
+                "CIAppId": "<placeholder>",
+                "CIAppResources": "<placeholder>",
+                "PowerAppsClusterCategory": "<placeholder>",
+                "ConnectorSignInRedirectUrl": "<placeholder>",
+                "ConnectorStaticSignInRedirectUrl": "<placeholder>",
+                "ConnectorWidgetSignInRedirectUrl": "<placeholder>",
+                "insightsplatform_scope": "<placeholder>",
+                "PowerAppsBaseUrl": "<placeholder>"
+            }
+        },
+        "CIServiceBasePath": {
+            "value": "https://api-dev2.dev.sales.ai.dynamics.com"
+        },
+        "MRServiceBasePath": {
+            "value": "https://2.dev.api.media.recording.dynamics.com"
+        },
+        "MeoBaseEndpoint": {
+            "value": "https://nam.comms-stable.azure-test.net"
+        },
+        "NotificationFrameworkConfiguration": {
+            "value": {
+                "MeoProcessorJobRepeatIntervalInMinutes": 1,
+                "MeoProcessorJobNotificationDbBatchSize": 250,
+                "MeoProcessorJobBusinessStartTime": "10:00:00",
+                "MeoProcessorJobBusinessEndTime": "16:00:00",
+                "MeoStatusUpdateJobRetryIntervalInMinutes": 5,
+                "MeoStatusUpdateJobMaxRetryCount": 15
+            }
+        },
+        "TeamsNotificationsJobsConfiguration": {
+            "value": {
+                "TeamsProcessorJobRepeatIntervalInMinutes": 1,
+                "TeamsProcessorJobNotificationDbBatchSize": 50,
+                "TeamsProcessorJobBusinessStartTime": "10:00:00",
+                "TeamsProcessorJobBusinessEndTime": "16:00:00",
+                "TeamsSenderJobRetryIntervalInMinutes": 5,
+                "TeamsSenderJobMaxRetryCount": 5,
+                "TeamsThrottlerPolicyTimeSpanInSeconds": 1,
+                "TeamsThrottlerPolicyItemsPerTimeSpan": 50,
+                "TeamsThrottlerPolicyRetryCount": 3,
+                "TeamsThrottlerPolicyRetryIntervalInSeconds": 30
+            }
+        },
+        "MRAppId": {
+            "value": "399ccdfa-40af-4d33-b122-d0146fcc5c90"
+        },
+        "IsProdFirstPartyApp": {
+            "value": false
+        },
+        "MicrosoftAppPassword": {
+            "reference": {
+                "keyVault": {
+                    "id": "/subscriptions/fc4fd628-8d49-49ec-85b9-4e9fc4973ac7/"
+                },
+                "secretName": "VivaBotAppSecret"
+            }
+        },
+        "WEBSITE_FIRST_PARTY_ID": {
+            "value": "AntMDS"
+        },
+        "vivaSalesClientAppId": {
+            "value": "81a0a483-a486-403d-be85-a2ced237ed03"
+        },
+        "vivaSalesLicensing1pAppId": {
+            "value": "81a0a483-a486-403d-be85-a2ced237ed03"
+        },
+        "vivaSalesValidAudiences0": {
+            "value": "api://localhost:3000/81a0a483-a486-403d-be85-a2ced237ed03"
+        },
+        "CommonTenant": {
+            "value": "common"
+        },
+        "Sendx5cBool": {
+            "value": "true"
+        },
+        "KeyvaultLiteral": {
+            "value": "KeyVault"
+        },
+        "vivaSalesLicensingCertName": {
+            "value": "vivalicensing-cert"
+        },
+        "IsFirstPartyApp": {
+            "value": true
+        },
+        "enableDevOrigins": {
+            "value": false
+        },
+        "AzureRegion": {
+            "value": "eastus"
+        },
+        "msAppId": {
+            "value": ""
+        },
+        "tokenCacheExpiryMinutes": {
+            "value": 60
+        },
+        "isBAPApiRoutingRequired": {
+            "value": false
+        },
+        "enableSFS2SAuth": {
+            "value": false
+        },
+        "DiscoveryServiceTargets": {
+            "value": ""
+        },
+        "DefaultEnvironmentLocation": {
+            "value": ""
+        },
+        "env_type": {
+            "value": "Dev"
+        },
+        "vivaSalesApplicationId": {
+            "value": ""
+        },
+        "webappPrefix": {
+            "value": "salesproductivityservice"
+        },
+        "islandHostname": {
+            "value": "https://insightsplatform.wus-il201.gateway.test.island.powerapps.com"
+        },
+        "buildVersion": {
+            "value": "0.0.0.0"
+        }
+    }
+}

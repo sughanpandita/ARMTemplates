@@ -3,7 +3,7 @@
     "contentVersion": "1.0.0.0",
     "parameters": {
         "scaleUnit": {
-            "value": "spanditascaleunit"
+            "value": "spanditasu"
         },
         "zones": {
             "value": ["1", "2", "3"]

@@ -16,7 +16,7 @@
         },
         "storagesku": {
             "type": "string",
-            "defaultValue": "Standard_GRS",
+            "defaultValue": "Standard_GZRS",
             "metadata": {
                 "description": "Prefix for the Web App being deployed"
             }

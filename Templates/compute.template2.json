@@ -171,7 +171,9 @@
             "kind": "app",
             "name": "[variables('spWebAppHostingPlanName')]",
             "location": "[variables('location')]",
-            "properties": {},
+            "properties": {
+                "zoneRedundant": true
+            },
             "dependsOn": [],
             "sku": {
                 "name": "[parameters('spSku')]"
@@ -187,8 +189,7 @@
                     "properties": {
                         "firstPartyId": "AntMDS",
                         "settingName": "ConfigJson",
-                        "settingValue": "[string(variables('configJson'))]",
-                        "zoneRedundant": true
+                        "settingValue": "[string(variables('configJson'))]"
                     }
                 }
             ]

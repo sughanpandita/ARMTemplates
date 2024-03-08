@@ -1,5 +1,5 @@
 {
-    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "$schema": "http://schema.management.azure.com/schemas/2014-04-01-preview/deploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
     "parameters": {
         "scaleUnit": {
@@ -33,26 +33,28 @@
     "resources": [
         {
             "type": "Microsoft.Cache/Redis",
-            "apiVersion": "2021-06-01",
+            "apiVersion": "2023-08-01",
             "name": "[variables('redisServerName')]",
             "location": "[variables('location')]",
             "tags": {
                 "ResourceOwnerAlias": "allendm"
             },
             "properties": {
-                "redisVersion": "6.0.14",
+                "redisVersion": "6.0",
                 "sku": {
                     "name": "[parameters('redisServerSkuName')]",
                     "family": "[parameters('redisServerSkuFamily')]",
                     "capacity": "[parameters('redisServerSkuCapacity')]"
                 },
                 "enableNonSslPort": false,
+                "replicasPerMaster": 3,
                 "publicNetworkAccess": "Enabled",
                 "redisConfiguration": {
                     "maxmemory-reserved": "125",
                     "maxfragmentationmemory-reserved": "125",
                     "maxmemory-delta": "125"
-                }
+                },
+                "zones": ["1", "2", "3"]
             }
         },
         {

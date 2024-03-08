@@ -6,10 +6,10 @@
             "value": "spandita"
         },
         "redisServerSkuName": {
-            "value": "Standard"
+            "value": "Premium"
         },
         "redisServerSkuFamily": {
-            "value": "C"
+            "value": "p"
         },
         "redisServerSkuCapacity": {
             "value": 1

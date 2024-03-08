@@ -83,9 +83,6 @@
             "defaultValue": "1",
             "type": "string"
         },
-        "genevaCertName": {
-            "type": "securestring"
-        },
         "vivaSalesSSLCertName": {
             "type": "string"
         },

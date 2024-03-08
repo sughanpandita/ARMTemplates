@@ -52,8 +52,15 @@
                     "maxmemory-reserved": "125",
                     "maxfragmentationmemory-reserved": "125",
                     "maxmemory-delta": "125"
-                }
-            }
+                },
+                "shardCount": 1,
+                "replicasPerMaster": 3
+            },
+            "zones": [
+                "1",
+                "2",
+                "3"
+            ]
         },
         {
             "type": "Microsoft.Cache/Redis/firewallRules",

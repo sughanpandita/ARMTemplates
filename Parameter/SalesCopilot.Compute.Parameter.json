@@ -3,10 +3,10 @@
     "contentVersion": "1.0.0.0",
     "parameters": {
         "scaleUnit": {
-            "value": "int"
+            "value": "spandita"
         },
         "spSku": {
-            "value": "S1"
+            "value": "P3v2"
         },
         "autoscaleEnabled": {
             "value": true

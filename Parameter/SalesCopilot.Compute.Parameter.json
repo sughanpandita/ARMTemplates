@@ -50,14 +50,6 @@
         "genevaEventVersion": {
             "value": "1"
         },
-        "genevaCertName": {
-            "reference": {
-                "keyVault": {
-                    "id": "/subscriptions/fc4fd628-8d49-49ec-85b9-4e9fc4973ac7/"
-                },
-                "secretName": "genevacert"
-            }
-        },
         "vivaSalesSSLCertName": {
             "value": "salesproductivity-ssl"
         },

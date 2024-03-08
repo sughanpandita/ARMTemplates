@@ -188,7 +188,7 @@
                         "firstPartyId": "AntMDS",
                         "settingName": "ConfigJson",
                         "settingValue": "[string(variables('configJson'))]",
-                        "zoneredundacy": true
+                        "zoneRedundant": true
                     }
                 }
             ]

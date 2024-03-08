@@ -4,6 +4,9 @@
     "parameters": {
         "scaleUnit": {
             "value": "spanditatest"
+        },
+        "zones": {
+            "value": ["1", "2", "3"]
         }
     }
 }

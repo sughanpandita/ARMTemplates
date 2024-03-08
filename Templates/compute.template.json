@@ -1,0 +1,197 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "spSku": {
+            "type": "string",
+            "metadata": {
+                "description": "Customer Voice web app SKU name"
+            }
+        },
+        "scaleUnit": {
+            "type": "string",
+            "metadata": {
+                "description": "Describes the scale unit that is to be used to uniquely identify each resource"
+            }
+        },
+        "autoscaleEnabled": {
+            "type": "Bool",
+            "defaultValue": true,
+            "metadata": {
+                "description": "A boolean to indicate whether the autoscale policy is enabled or disabled."
+            }
+        },
+        "minimumCapacity": {
+            "type": "Int",
+            "metadata": {
+                "description": "The minimum capacity.  Autoscale engine will ensure the instance count is at least this value."
+            }
+        },
+        "maximumCapacity": {
+            "type": "Int",
+            "metadata": {
+                "description": "The maximum capacity.  Autoscale engine will ensure the instance count is not greater than this value."
+            }
+        },
+        "defaultCapacity": {
+            "type": "Int",
+            "metadata": {
+                "description": "The default capacity.  Autoscale engine will preventively set the instance count to be this value if it can not find any metric data."
+            }
+        },
+        "metricName": {
+            "type": "string",
+            "metadata": {
+                "description": "The metric name."
+            }
+        },
+        "monitoringGcsAuthId": {
+            "defaultValue": "AuthID",
+            "type": "string"
+        },
+        "CNameDomainName": {
+            "type": "string",
+            "metadata": {
+                "description": "The Cname Domain Suffix used"
+            }
+        },
+        "monitoringRole": {
+            "defaultValue": "Role",
+            "type": "string"
+        },
+        "monitoringGcsEnvironment": {
+            "defaultValue": "Environment",
+            "type": "string"
+        },
+        "monitoringGcsAccount": {
+            "defaultValue": "Account",
+            "type": "string"
+        },
+        "monitoringGcsNamespace": {
+            "defaultValue": "Namespace",
+            "type": "string"
+        },
+        "vnet": {
+            "defaultValue": "vnet-salesproductivity",
+            "type": "string"
+        },
+        "monitoringConfigVersion": {
+            "defaultValue": "1.0",
+            "type": "string"
+        },
+        "genevaEventVersion": {
+            "defaultValue": "1",
+            "type": "string"
+        },
+        "vivaSalesSSLCertName": {
+            "type": "string"
+        },
+        "webappPrefix": {
+            "type": "string",
+            "metadata": {
+                "description": "Prefix for the Web App being deployed"
+            }
+        },
+        "env_type": {
+            "type": "string"
+        }
+    },
+    "variables": {
+        "spWebAppHostingPlanPrefix": "spservicehostingplan",
+        "spAutoScalePlanName": "spautoscale",
+        "vaults_salesproductivity_name": "[concat('spkeyvault', parameters('scaleUnit'))]",
+        "location": "[resourceGroup().location]",
+        "spWebAppHostingPlanName": "[concat(variables('spWebAppHostingPlanPrefix'),parameters('scaleUnit'))]",
+        "spWebAppName": "[concat(parameters('webappPrefix'),parameters('scaleUnit'))]",
+        "customdomainappservicePrefix": "[if(equals(parameters('env_type'), 'Prod'), '.', 'service.')]",
+        "customdomainappservice": "[concat(parameters('scaleUnit'),variables('customdomainappservicePrefix') ,parameters('CNameDomainName'), '.dynamics.com')]",
+        "customdomainbotappservice": "[concat(parameters('scaleUnit'),'bot.' ,parameters('CNameDomainName'), '.dynamics.com')]",
+        "customdomaininappServiceFinal": "[if(equals(parameters('webappPrefix'), 'salesproductivityservice'), variables('customdomainappservice') ,variables('customdomainbotappservice'))]",
+        "spAppserviceCustomDomainName": "[concat(variables('spWebAppName'), '/', variables('customdomaininappServiceFinal'))]",
+        "settingName": "[concat(toLower(variables('spAutoScalePlanName')), '-setting')]",
+        "vnetName": "[concat(parameters('vnet'),parameters('scaleUnit'))]",
+        "vivaSalesClientCertName": "salescopilot-fpa-access",
+        "kvRbacCryptoServiceEncryptionUserRoleID": "[concat('/subscriptions/', subscription().subscriptionId, '/providers/Microsoft.Authorization/roleDefinitions/', 'e147488a-f6f5-4113-8e2d-b22465e65bf6')]",
+        "kvRbacReaderRoleID": "[concat('/subscriptions/', subscription().subscriptionId, '/providers/Microsoft.Authorization/roleDefinitions/', '21090545-7ca7-4776-b22c-e363652d74d2')]",
+        "kvRbacSecretsUserRoleID": "[concat('/subscriptions/', subscription().subscriptionId, '/providers/Microsoft.Authorization/roleDefinitions/', '4633458b-17de-408a-b874-0445c86b69e6')]",
+        "monitoringTenant": "[concat('SalesProductivity' ,parameters('scaleUnit'))]",
+        "configJson": {
+            "MONITORING_TENANT": "[variables('monitoringTenant')]",
+            "MONITORING_ROLE": "[parameters('monitoringRole')]",
+            "MONITORING_XSTORE_ACCOUNTS": "GCS",
+            "AdditionalEnvironmentVariables": [
+                {
+                    "Key": "DATACENTER",
+                    "Value": "[variables('location')]"
+                },
+                {
+                    "Key": "MONITORING_GCS_ENVIRONMENT",
+                    "Value": "[parameters('monitoringGcsEnvironment')]"
+                },
+                {
+                    "Key": "MONITORING_GCS_ACCOUNT",
+                    "Value": "[parameters('monitoringGcsAccount')]"
+                },
+                {
+                    "Key": "MONITORING_GCS_NAMESPACE",
+                    "Value": "[parameters('monitoringGcsNamespace')]"
+                },
+                {
+                    "Key": "MONITORING_GCS_REGION",
+                    "Value": "[variables('location')]"
+                },
+                {
+                    "Key": "MONITORING_GCS_AUTH_ID",
+                    "Value": "[parameters('monitoringGcsAuthId')]"
+                },
+                {
+                    "Key": "MONITORING_GCS_AUTH_ID_TYPE",
+                    "Value": "AuthKeyVault"
+                },
+                {
+                    "Key": "MONITORING_GCS_CERTSTORE",
+                    "Value": "LocalMachine\\My"
+                },
+                {
+                    "Key": "MONITORING_CONFIG_VERSION",
+                    "Value": "[parameters('monitoringConfigVersion')]"
+                },
+                {
+                    "Key": "MONITORING_USE_GENEVA_CONFIG_SERVICE",
+                    "Value": "true"
+                }
+            ]
+        },
+        "configXml": "[concat('<MonitoringManagement eventVersion=\"',parameters('genevaEventVersion'),'\" version=\"',parameters('monitoringConfigVersion'),'\" timestamp=\"2017-12-29T00:00:00Z\" namespace=\"',parameters('monitoringGcsNamespace'),'\"></MonitoringManagement>')]"
+    },
+    "resources": [
+        {
+            "apiVersion": "2018-02-01",
+            "type": "Microsoft.Web/serverfarms",
+            "kind": "app",
+            "name": "[variables('spWebAppHostingPlanName')]",
+            "location": "[variables('location')]",
+            "properties": {},
+            "dependsOn": [],
+            "sku": {
+                "name": "[parameters('spSku')]"
+            },
+            "resources": [
+                {
+                    "comments": "Defines how the Geneva Monitoring Agent should be configured.",
+                    "type": "Microsoft.Web/serverfarms/firstPartyApps/settings",
+                    "name": "[concat(variables('spWebAppHostingPlanName'), '/AntMDS/ConfigJson')]",
+                    "apiVersion": "2015-08-01",
+                    "location": "[variables('location')]",
+                    "dependsOn": [ "[resourceId('Microsoft.Web/serverfarms', variables('spWebAppHostingPlanName'))]" ],
+                    "properties": {
+                        "firstPartyId": "AntMDS",
+                        "settingName": "ConfigJson",
+                        "settingValue": "[string(variables('configJson'))]",
+                        "zoneredundacy": true
+                    }
+                }
+            ]
+        }
+    ]
+}

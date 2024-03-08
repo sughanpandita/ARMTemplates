@@ -1,0 +1,63 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "scaleUnit": {
+            "value": "spandita"
+        },
+        "spSku": {
+            "value": "P3v2"
+        },
+        "autoscaleEnabled": {
+            "value": true
+        },
+        "minimumCapacity": {
+            "value": 1
+        },
+        "maximumCapacity": {
+            "value": 10
+        },
+        "defaultCapacity": {
+            "value": 3
+        },
+        "metricName": {
+            "value": "CpuPercentage"
+        },
+        "vnet": {
+            "value": "vnet-salesproductivity"
+        },
+        "CNameDomainName": {
+            "value": "<placeholder>"
+        },
+        "monitoringGcsAuthId": {
+            "value": "telemetry.geneva.keyvault.monitoring.sales.ai.dynamics.com"
+        },
+        "monitoringRole": {
+            "value": "SalesProductivityWebApp"
+        },
+        "monitoringGcsEnvironment": {
+            "value": "FirstPartyProd"
+        },
+        "monitoringGcsAccount": {
+            "value": "CRMAnalyticsPROD"
+        },
+        "monitoringGcsNamespace": {
+            "value": "CRMProdCloudAA"
+        },
+        "monitoringConfigVersion": {
+            "value": "3.94"
+        },
+        "genevaEventVersion": {
+            "value": "1"
+        },
+        "vivaSalesSSLCertName": {
+            "value": "salesproductivity-ssl"
+        },
+        "webappPrefix": {
+            "value": "salesproductivityservice"
+        },
+        "env_type": {
+            "value": "Dev"
+        }
+    }
+}

@@ -12,7 +12,7 @@
             "value": "Standard_GZRS"
         },
         "isStorageCreationEnabled": {
-            "value": true
+            "value": false
         }
     }
 }

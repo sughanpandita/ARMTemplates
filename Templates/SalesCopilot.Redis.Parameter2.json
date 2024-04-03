@@ -15,7 +15,7 @@
             "value": 1
         },
         "hpaSupportAvailableVnet": {
-            "value": false
+            "value": true
         },
         "hpaSupportAvailableRedis": {
             "value": true

@@ -18,7 +18,7 @@
             "value": false
         },
         "hpaSupportAvailableRedis": {
-            "value": false
+            "value": true
         },
         "preserveOldIp": {
             "value": true

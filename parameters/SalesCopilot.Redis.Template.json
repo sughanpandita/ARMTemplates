@@ -1,0 +1,95 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "scaleUnit": {
+            "type": "string",
+            "metadata": {
+                "description": "Describes the scale unit that is to be used to uniquely identify each resource"
+            }
+        },
+        "redisServerSkuName": {
+            "type": "string"
+        },
+        "redisServerSkuFamily": {
+            "type": "string"
+        },
+        "redisServerSkuCapacity": {
+            "type": "int"
+        },
+        "expirationTimeInSecondsEpoch": {
+            "type": "int",
+            "defaultValue": "[dateTimeToEpoch(dateTimeAdd(utcNow(), 'P1Y'))]"
+        },
+        "hpaSupportAvailableVnet": {
+            "type": "bool",
+            "metadata": {
+                "description": "Specify if Hyper Availability support is available in VNet for this Region"
+            }
+        },
+        "hpaSupportAvailableRedis": {
+            "type": "bool",
+            "metadata": {
+                "description": "Specify if Hyper Availability support is available in Redis for this Region"
+            }
+        },
+        "preserveOldIp": {
+            "type": "bool",
+            "metadata": {
+                "description": "Specify if old ip should be preserved (only applicable when hpaSupportAvailableVnet is true)"
+            }
+        }
+    },
+    "variables": {
+        "hpaSuffix": "[if(parameters('hpaSupportAvailableVnet'), 'hpa', '')]",
+        "hpaRedisSuffix": "[if(parameters('hpaSupportAvailableRedis'), 'hpa', '')]",
+        "location": "[resourceGroup().location]",
+        "vaults_salesproductivity_name": "[concat('spkeyvault', parameters('scaleUnit'))]",
+        "publicIpAddressNameBase": "NAT-IP-SPPublicIPAddress",
+        "publicIPAddressName": "[concat(variables('publicIpAddressNameBase'),parameters('scaleUnit'),variables('hpaSuffix'))]",
+        "publicIPAddressNameOld": "[concat(variables('publicIpAddressNameBase'),parameters('scaleUnit'))]",
+        "redisCacheConfStringSecretName": "redisServerConfString",
+        "redisServerName": "[concat('spRedisCache' ,parameters('scaleUnit'),variables('hpaRedisSuffix'))]"
+    },
+    "resources": [
+        {
+            "type": "Microsoft.KeyVault/vaults/secrets",
+            "name": "[concat(concat(variables('vaults_salesproductivity_name'), '/'), variables('redisCacheConfStringSecretName'))]",
+            "apiVersion": "2021-11-01-preview",
+            "properties": {
+                "value": "[concat(variables('redisServerName'),'.redis.cache.windows.net:6380,ssl=true,connectTimeout=15000,syncTimeout=15000,abortConnect=false,password=',listKeys(resourceId('Microsoft.Cache/Redis/', variables('redisServerName')), '2021-06-01').primaryKey)]",
+                "contentType": "application/vnd.bag-StrongEncConnectionString",
+                "attributes": {
+                    "exp": "[parameters('expirationTimeInSecondsEpoch')]"
+                }
+            },
+            "dependsOn": ["[resourceId('Microsoft.Cache/Redis', variables('redisServerName'))]"]
+        },
+        {
+            "type": "Microsoft.Cache/Redis",
+            "apiVersion": "2021-06-01",
+            "name": "[variables('redisServerName')]",
+            "location": "[variables('location')]",
+            "tags": {
+                "ResourceOwnerAlias": "allendm"
+            },
+            "zones": "[]",
+            "properties": {
+                "redisVersion": "6.0.14",
+                "sku": {
+                    "name": "[parameters('redisServerSkuName')]",
+                    "family": "[parameters('redisServerSkuFamily')]",
+                    "capacity": "[parameters('redisServerSkuCapacity')]"
+                },
+                "enableNonSslPort": false,
+                "publicNetworkAccess": "Enabled",
+                "redisConfiguration": {
+                    "maxmemory-reserved": "125",
+                    "maxfragmentationmemory-reserved": "125",
+                    "maxmemory-delta": "125"
+                },
+                "replicasPerMaster": "0"
+            }
+        }
+    ]
+}

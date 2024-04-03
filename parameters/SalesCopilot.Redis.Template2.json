@@ -49,7 +49,7 @@
         "publicIPAddressName": "[concat(variables('publicIpAddressNameBase'),parameters('scaleUnit'),variables('hpaSuffix'))]",
         "publicIPAddressNameOld": "[concat(variables('publicIpAddressNameBase'),parameters('scaleUnit'))]",
         "redisCacheConfStringSecretName": "redisServerConfString",
-        "redisServerName": "[concat('spRedisCache' ,parameters('scaleUnit'),variables('hpaRedisSuffix'))]"
+        "redisServerName": "[concat('spRedisCache' ,parameters('scaleUnit'))]"
     },
     "resources": [
         {

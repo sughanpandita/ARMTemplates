@@ -83,8 +83,7 @@
                     "maxmemory-reserved": "125",
                     "maxfragmentationmemory-reserved": "125",
                     "maxmemory-delta": "125"
-                },
-                "replicasPerMaster": 0
+                }
             }
         }
     ]

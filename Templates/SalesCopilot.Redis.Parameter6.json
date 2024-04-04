@@ -9,7 +9,7 @@
             "value": "standard"
         },
         "redisServerSkuFamily": {
-            "value": "c"
+            "value": "C"
         },
         "redisServerSkuCapacity": {
             "value": 1

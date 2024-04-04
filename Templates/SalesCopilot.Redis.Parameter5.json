@@ -6,7 +6,7 @@
             "value": "test"
         },
         "redisServerSkuName": {
-            "value": "redisServerSkuFamily"
+            "value": "Premium"
         },
         "redisServerSkuFamily": {
             "value": "p"

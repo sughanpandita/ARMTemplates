@@ -41,13 +41,8 @@
         }
     },
     "variables": {
-        "hpaSuffix": "[if(parameters('hpaSupportAvailableVnet'), 'hpa', '')]",
-        "hpaRedisSuffix": "[if(parameters('hpaSupportAvailableRedis'), 'hpa', '')]",
         "location": "[resourceGroup().location]",
         "vaults_salesproductivity_name": "[concat('spkeyvault', parameters('scaleUnit'))]",
-        "publicIpAddressNameBase": "NAT-IP-SPPublicIPAddress",
-        "publicIPAddressName": "[concat(variables('publicIpAddressNameBase'),parameters('scaleUnit'),variables('hpaSuffix'))]",
-        "publicIPAddressNameOld": "[concat(variables('publicIpAddressNameBase'),parameters('scaleUnit'))]",
         "redisCacheConfStringSecretName": "redisServerConfString",
         "redisServerName": "[concat('spRedisCache' ,parameters('scaleUnit'))]"
     },

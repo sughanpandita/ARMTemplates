@@ -44,7 +44,8 @@
         "location": "[resourceGroup().location]",
         "vaults_salesproductivity_name": "[concat('spkeyvault', parameters('scaleUnit'))]",
         "redisCacheConfStringSecretName": "redisServerConfString",
-        "redisServerName": "[concat('spRedisCache' ,parameters('scaleUnit'))]"
+        "redisServerName": "[concat('spRedisCache' ,parameters('scaleUnit'))]",
+        "redisZones": "[if(parameters('hpaSupportAvailableRedis'), createArray('1', '2', '3'), createArray())]",
     },
     "resources": [
         {
@@ -68,7 +69,7 @@
             "tags": {
                 "ResourceOwnerAlias": "allendm"
             },
-            "zones": "[]",
+            "zones": "[variables('redisZones')]",
             "properties": {
                 "redisVersion": "6.0.14",
                 "sku": {
@@ -83,7 +84,7 @@
                     "maxfragmentationmemory-reserved": "125",
                     "maxmemory-delta": "125"
                 },
-                "replicasPerMaster": "0"
+                "replicasPerMaster": 0
             }
         }
     ]
